@@ -8,7 +8,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 
-struct Ducati {
+struct Bike {
     modelo: String,
     cor: String,
     cilindrada: String
@@ -21,15 +21,15 @@ impl Runnable for Update {
         suborbital::resp::content_type("application/json; charset=utf-8");
 
         let in_string = String::from_utf8(input).unwrap();
-        let ducati: Ducati = serde_json::from_str(&in_string).unwrap();
+        let bikes: Bikes = serde_json::from_str(&in_string).unwrap();
 
         let key = req::url_param("key");
 
         let mut query_args: Vec<query::QueryArg> = Vec::new();
 
-        query_args.push(query::QueryArg::new("Modelo", ducati.modelo.as_str()));
-        query_args.push(query::QueryArg::new("Cor", ducati.cor.as_str()));
-        query_args.push(query::QueryArg::new("Cilindrada", ducati.cilindrada.as_str()));
+        query_args.push(query::QueryArg::new("Modelo", bikes.modelo.as_str()));
+        query_args.push(query::QueryArg::new("Cor", bikes.cor.as_str()));
+        query_args.push(query::QueryArg::new("Cilindrada", bikes.cilindrada.as_str()));
         query_args.push(query::QueryArg::new("id", key.as_str()));
 
         match db::update("UpdateBikes", query_args) {
