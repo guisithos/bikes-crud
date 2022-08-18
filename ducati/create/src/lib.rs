@@ -4,7 +4,7 @@ use suborbital::db::query;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Ducati {
+struct Bikes {
     modelo: String,
     cor: String,
     cilindradas: String
@@ -18,14 +18,14 @@ impl Runnable for Create {
 
         let in_string = String::from_utf8(input).unwrap();
         // read the JSON message
-        let ducati: Ducati = serde_json::from_str(&in_string).unwrap();
+        let bikes: Bikes = serde_json::from_str(&in_string).unwrap();
         // add parameters
         let mut query_args: Vec<query::QueryArg> = Vec::new();
-        query_args.push(query::QueryArg::new("Modelo", ducati.modelo.as_str()));
-        query_args.push(query::QueryArg::new("Cor", ducati.cor.as_str()));
-        query_args.push(query::QueryArg::new("Cilindradas", ducati.cilindradas.as_str()));
+        query_args.push(query::QueryArg::new("Modelo", bikes.modelo.as_str()));
+        query_args.push(query::QueryArg::new("Cor", bikes.cor.as_str()));
+        query_args.push(query::QueryArg::new("Cilindradas", bikes.cilindradas.as_str()));
 
-        match db::insert("AddDucati", query_args) {
+        match db::insert("AddBike", query_args) {
             Ok(result) => Ok(result),
             Err(e) => {
                 Err(RunErr::new(500, e.message.as_str()))
