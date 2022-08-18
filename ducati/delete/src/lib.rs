@@ -14,7 +14,7 @@ impl Runnable for Delete {
         let mut query_args: Vec<query::QueryArg> = Vec::new();
         query_args.push(query::QueryArg::new("id", key.as_str()));
 
-        match db::delete("DeleteDucatis", query_args) {
+        match db::delete("DeleteBike", query_args) {
             Ok(result) => Ok(result),
             Err(e) => {
                 Err(RunErr::new(500, e.message.as_str()))
