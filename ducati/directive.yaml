@@ -14,7 +14,7 @@ connections:
     # postgresql://<username>:<password>@<hostname>:<port>/<database>
 
 queries:
-  - name: "SelectBikes"
+  - name: "SelectAllBikes"
     query: |-
       SELECT * FROM bikes
   - name: "SelectOneBike"
