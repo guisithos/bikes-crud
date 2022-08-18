@@ -1,0 +1,63 @@
+# the Directive is a complete description of your application, including all of its business logic.
+# appVersion should be updated for each new deployment of your app.
+# atmoVersion declares which version of Atmo is used for the `subo dev` command.
+
+identifier: com.suborbital.bikes
+appVersion: v0.1.0
+atmoVersion: v0.4.0
+
+connections:
+  database:
+    type: postgresql
+    connectionString: postgresql://docker:docker@postgres:5432/docker
+    # connectionString: env(DATABASE)
+    # postgresql://<username>:<password>@<hostname>:<port>/<database>
+
+queries:
+  - name: "SelectBikes"
+    query: |-
+      SELECT * FROM bikes
+  - name: "SelectOneBike"
+    query: |-
+      SELECT * FROM bikes
+      WHERE id = $1
+  - name: "AddBike"
+    query: |-
+      INSERT INTO bikes (modelo, cor, cilindrada) 
+      VALUES ($1, $2, $3)
+  - name: "UpdateBikes"
+    query: |-
+      UPDATE bikes
+      SET modelo = $1, cor = $2, cilindrada = $3 
+      WHERE id = $4
+  - name: "DeleteBike"
+    query: |-
+      DELETE FROM bikes
+      WHERE id = $1
+
+handlers:
+  - type: request
+    resource: /bikes
+    method: GET
+    steps:
+      - fn: readall
+  - type: request
+    resource: /bikes/:key
+    method: GET
+    steps:
+      - fn: readone
+  - type: request
+    resource: /bikes
+    method: POST
+    steps:
+      - fn: create
+  - type: request
+    resource: /bikes/:key
+    method: PUT
+    steps:
+      - fn: update
+  - type: request
+    resource: /bikes/:key
+    method: DELETE
+    steps:
+      - fn: delete
